@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_study_sliver/TravelBean.dart';
+import 'package:flutter_ui_study_sliver/detail_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
@@ -83,7 +84,11 @@ class MostPopularWidget extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         var bean = _list[index];
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return DetailPage(bean);
+            }));
+          },
           child: Hero(
             tag: bean.url,
             child: Stack(
@@ -119,10 +124,7 @@ class MostPopularWidget extends StatelessWidget {
                         color: Colors.transparent,
                         child: Text(
                           bean.name,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.0
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 15.0),
                         ),
                       )
                     ],
@@ -150,7 +152,11 @@ class TravelWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         var bean = _list[index];
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return DetailPage(bean);
+            }));
+          },
           child: Hero(
             tag: bean.url,
             child: Stack(
