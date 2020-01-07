@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_ui_study_sliver/TravelBean.dart';
 
 class DetailPage extends StatefulWidget {
@@ -25,7 +26,37 @@ class _DetailPageState extends State<DetailPage> {
                 child: _buildDetail(),
               )
             ],
-          )
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: SizedBox(
+              height: kToolbarHeight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -34,8 +65,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget _buildSliverHead() {
     return SliverPersistentHeader(
       delegate: DetailSliverDelegate(
-        expandedHeight, widget.bean, roundedContainerHeight
-      ),
+          expandedHeight, widget.bean, roundedContainerHeight),
     );
   }
 
@@ -92,7 +122,7 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
           ),
-          // SizedBox(height: 120, child: FeaturedWidget()),
+          SizedBox(height: 120, child: FeaturedWidget()),
           Padding(
             padding: EdgeInsets.symmetric(
               vertical: 15,
@@ -101,10 +131,7 @@ class _DetailPageState extends State<DetailPage> {
             child: Text(
               "The balearic Lsnaled,The Lsnaled,The balea balearic Lsnaled,"
               "The balearic Lsnaled,Lsnaled,The balea The balearic Lsnaled,"
-              "The balearic Lsnaled,Lsnaled,The balea The balearic Lsnaled,"
-              "The balearic Lsnaled,Lsnaled,The balea The balearic Lsnaled,"
-              "The balearic Lsnaled,Lsnaled,The balea The balearic Lsnaled,"
-              "The balearic Lsnaled,Lsnaled,The balea ",
+              "The balearic Lsnaled,Lsnaled",
               style: TextStyle(
                 color: Colors.black38,
                 height: 1.4,
@@ -147,12 +174,12 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ),
                 Text(
-                    "Writer, Wonderlust",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
-                  )
+                  "Writer, Wonderlust",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                )
               ],
             ),
           ),
@@ -173,7 +200,8 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
   final TravelBean bean;
   final double roundedContainerHeight;
 
-  DetailSliverDelegate(this.expandedHeight, this.bean, this.roundedContainerHeight);
+  DetailSliverDelegate(
+      this.expandedHeight, this.bean, this.roundedContainerHeight);
 
   @override
   double get maxExtent => expandedHeight;
@@ -187,54 +215,88 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return  Stack(
-      children: <Widget>[
-        Image.asset(
-          bean.url,
-          width: MediaQuery.of(context).size.width,
-          height: expandedHeight,
-          fit: BoxFit.cover,
-        ),
-        Positioned(
-          top: expandedHeight - roundedContainerHeight - shrinkOffset,
-          left: 0,
-          child: Container(
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      child: Stack(
+        children: <Widget>[
+          Image.asset(
+            bean.url,
             width: MediaQuery.of(context).size.width,
-            height: roundedContainerHeight,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              )
+            height: expandedHeight,
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+            top: expandedHeight - roundedContainerHeight - shrinkOffset,
+            // top: 0,
+            left: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: roundedContainerHeight,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  )),
             ),
           ),
-        ),
-        Positioned(
-          top: expandedHeight - 120 - shrinkOffset,
-          left: 30,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                bean.name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
+          Positioned(
+            top: expandedHeight - 120 - shrinkOffset,
+            left: 30,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  bean.name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  ),
                 ),
-              ),
-              Text(
-                bean.location,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                ),
-              )
-            ],
+                Text(
+                  bean.location,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      )
+    );
+  }
+}
+
+class FeaturedWidget extends StatelessWidget {
+  List<TravelBean> _list = TravelBean.generateMostPopularBean();
+
+  FeaturedWidget({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 15.0),
+      scrollDirection: Axis.horizontal,
+      itemCount: _list.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          width: 120,
+          height: 100,
+          margin: EdgeInsets.only(right: 15),
+          child: Image.asset(
+            _list[index].url,
+            fit: BoxFit.cover,
+          ),
+        );
+      },
     );
   }
 }
