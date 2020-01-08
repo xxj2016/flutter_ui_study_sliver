@@ -84,8 +84,7 @@ class _DetailPageState extends State<DetailPage> {
               "The balearic Lsnaled,Lsnaled,The balea The balearic Lsnaled,"
               "The balearic Lsnaled,Lsnaled,The balea The balearic Lsnaled,"
               "The balearic Lsnaled,Lsnaled,The balea The balearic Lsnaled,"
-              "The balearic Lsnaled,The balearic Lsnaled,The balea Lsnaled,"
-              "The balearic Lsnaled,The balearic Lsnaled,",
+              "The balearic Lsnaled,The balearic Lsnaled",
               style: TextStyle(
                 color: Colors.black38,
                 height: 1.4,
